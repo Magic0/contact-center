@@ -1,6 +1,7 @@
 package com.bbva.pzic.contactcenter.dao;
 
 import com.bbva.pzic.contactcenter.business.dto.*;
+import com.bbva.pzic.contactcenter.facade.v0.dto.ContactCenterConversationsOutput;
 import com.bbva.pzic.contactcenter.facade.v0.dto.ParticipantSearchOutput;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface IContactCenterDAO {
     void modifyConversationIndicator(InputModifyConversationIndicator input);
 
     void modifyPartialContactCenterConversation(InputModifyPartialContactCenterConversation input);
+
+    List<ContactCenterConversationsOutput> listContactCenterConversation(InputContactCenterConversations input);
 }

@@ -4,6 +4,7 @@ import com.bbva.pzic.contactcenter.business.ISrvIntContactCenter;
 import com.bbva.pzic.contactcenter.business.dto.*;
 import com.bbva.pzic.contactcenter.dao.IContactCenterDAO;
 
+import com.bbva.pzic.contactcenter.facade.v0.dto.ContactCenterConversationsOutput;
 import com.bbva.pzic.contactcenter.facade.v0.dto.ParticipantSearchOutput;
 
 import com.bbva.pzic.routine.validator.Validator;
@@ -77,5 +78,13 @@ public class SrvIntContactCenter implements ISrvIntContactCenter {
         LOG.info("... Validating modifyPartialContactCenterConversation input parameter ...");
         validator.validate(input, ValidationGroup.ModifyPartialContactCenterConversation.class);
         contactCenterDAO.modifyPartialContactCenterConversation(input);
+    }
+
+    @Override
+    public List<ContactCenterConversationsOutput> listContactCenterConversations(InputContactCenterConversations input) {
+        LOG.info("... Invoking method SrvIntContactCenter.listContactCenterConversations ...");
+        LOG.info("... Validating listContactCenterConversations input parameter ...");
+        validator.validate(input, ValidationGroup.ContactCenterConversations.class);
+        return contactCenterDAO.listContactCenterConversation(input);
     }
 }

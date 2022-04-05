@@ -1,6 +1,7 @@
 package com.bbva.pzic.contactcenter.business;
 
 import com.bbva.pzic.contactcenter.business.dto.*;
+import com.bbva.pzic.contactcenter.facade.v0.dto.ContactCenterConversationsOutput;
 import com.bbva.pzic.contactcenter.facade.v0.dto.ParticipantSearchOutput;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface ISrvIntContactCenter {
     void modifyConversationIndicator(InputModifyConversationIndicator mapIn);
 
     void modifyPartialContactCenterConversation(InputModifyPartialContactCenterConversation input);
+
+    List<ContactCenterConversationsOutput> listContactCenterConversations(InputContactCenterConversations input);
 }

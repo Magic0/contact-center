@@ -3,6 +3,8 @@ package com.bbva.pzic.contactcenter.dao.impl;
 import com.bbva.pzic.contactcenter.business.dto.*;
 import com.bbva.pzic.contactcenter.dao.IContactCenterDAO;
 import com.bbva.pzic.contactcenter.dao.rest.*;
+import com.bbva.pzic.contactcenter.dao.rest.mapper.impl.RestListContactCenterConversationsMapper;
+import com.bbva.pzic.contactcenter.facade.v0.dto.ContactCenterConversationsOutput;
 import com.bbva.pzic.contactcenter.facade.v0.dto.ParticipantSearchOutput;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,6 +37,9 @@ public class ContactCenterDAO implements IContactCenterDAO {
 
     @Autowired
     private RestModifyPartialContactCenterConversation restModifyPartialContactCenterConversation;
+
+    @Autowired
+    private RestListContactCenterConversations restListContactCenterConversations;
 
     @Override
     public void createConversationQuestionnaireAnsweredQuestion(InputCreateConversationQuestionnaireAnsweredQuestion input) {
@@ -71,5 +76,11 @@ public class ContactCenterDAO implements IContactCenterDAO {
     public void modifyPartialContactCenterConversation(InputModifyPartialContactCenterConversation input) {
         LOG.info("... Invoking method ContactCenterDAO.modifyPartialContactCenterConversation ...");
         restModifyPartialContactCenterConversation.perform(input);
+    }
+
+    @Override
+    public List<ContactCenterConversationsOutput> listContactCenterConversation(InputContactCenterConversations input) {
+        LOG.info("... Invoking method ContactCenterDAO.listContactCenterConversation ...");
+        return restListContactCenterConversations.perform(input);
     }
 }

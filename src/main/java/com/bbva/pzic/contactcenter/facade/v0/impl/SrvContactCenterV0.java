@@ -12,19 +12,18 @@ import com.bbva.pzic.contactcenter.facade.v0.ISrvContactCenterV0;
 import com.bbva.pzic.contactcenter.facade.v0.dto.*;
 import com.bbva.pzic.contactcenter.facade.v0.mapper.*;
 import com.bbva.pzic.routine.processing.data.DataProcessingExecutor;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.bbva.pzic.contactcenter.facade.RegistryIds.SMC_REGISTRY_ID_OF_CREATE_CONVERSATION_QUESTIONNAIRE_ANSWERED_QUESTION;
-import static com.bbva.pzic.contactcenter.facade.RegistryIds.SMC_REGISTRY_ID_OF_SEARCH_CONVERSATION_PARTICIPANTS;
+import static com.bbva.pzic.contactcenter.facade.RegistryIds.*;
 
 /**
  * Created on 22/10/2020.
@@ -44,6 +43,11 @@ public class SrvContactCenterV0 implements ISrvContactCenterV0 {
     private static final String QUESTIONNAIRE_ID = "questionnaire-id";
     private static final String INDICATOR_ID = "indicator-id";
 
+    private static final String FROM_DATE = "fromDate";
+    private static final String PARTICIPANT_ID = "participant.id";
+    private static final String TO_DATE = "toDate";
+    private static final String HAS_CONTRACT = "hasContract";
+
     @Autowired
     private ISrvIntContactCenter srvIntContactCenter;
     @Autowired
@@ -61,6 +65,9 @@ public class SrvContactCenterV0 implements ISrvContactCenterV0 {
 
     @Autowired
     private ICreateConversationActionMapper createConversationActionMapper;
+
+    @Autowired
+    private IListContactCenterConversationsMapper listContactCenterConversationsMapper;
 
     @Autowired
     private DataProcessingExecutor inputDataProcessingExecutor;
@@ -126,6 +133,38 @@ public class SrvContactCenterV0 implements ISrvContactCenterV0 {
     }
 
     @Override
+    @GET
+    @Path("/conversations")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @SMC(registryID = RegistryIds.SMC_REGISTRY_ID_OF_LIST_CONTACT_CENTER_CONVERSATIONS, logicalID = "listContactCenterConversations",forcedCatalog = "gabiCatalog")
+    public ServiceResponse<List<ContactCenterConversationsOutput>> listContactCenterConversations(
+            @DefaultValue("12345678") @QueryParam(PARTICIPANT_ID) final String codigoCliente,
+            @DefaultValue("2022-03-02 11:00:00") @QueryParam(FROM_DATE) final String fechaInicio,
+            @DefaultValue("2022-03-02 11:00:00") @QueryParam(TO_DATE) final String fechaFin,
+            @DefaultValue("false") @QueryParam(HAS_CONTRACT) final Boolean sinCodigoContrato){
+        LOG.info("----- Invoking service listContactCenterConversations -----");
+        HashMap<String, Object> queryParams = new HashMap<>();
+        queryParams.put(PARTICIPANT_ID,codigoCliente);
+        queryParams.put(FROM_DATE, fechaInicio);
+        queryParams.put(TO_DATE,fechaFin);
+        queryParams.put(HAS_CONTRACT,sinCodigoContrato);
+        inputDataProcessingExecutor.perform(RegistryIds.SMC_REGISTRY_ID_OF_LIST_CONTACT_CENTER_CONVERSATIONS, null, null, queryParams);
+
+        List<ContactCenterConversationsOutput> dtoCCC = srvIntContactCenter.listContactCenterConversations(
+                listContactCenterConversationsMapper.mapIn((String) queryParams.get(PARTICIPANT_ID), (String) queryParams.get(FROM_DATE),
+                        (String) queryParams.get(TO_DATE), (Boolean) queryParams.get(HAS_CONTRACT)));
+
+        if(CollectionUtils.isEmpty(dtoCCC)){
+            return null;
+        }
+        ServiceResponse<List<ContactCenterConversationsOutput>> serviceResponse = listContactCenterConversationsMapper.mapOut(
+            dtoCCC
+        );
+        outputDataProcessingExecutor.perform(SMC_REGISTRY_ID_OF_LIST_CONTACT_CENTER_CONVERSATIONS, serviceResponse, null, null);
+        return serviceResponse;
+    }
+
+    @Override
     @POST
     @Path("/conversations/{conversation-id}/actions")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -176,4 +215,5 @@ public class SrvContactCenterV0 implements ISrvContactCenterV0 {
 
         return ServiceResponseNoContent.ServiceResponseNoContentBuilder.build();
     }
+
 }

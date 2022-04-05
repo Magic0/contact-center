@@ -24,4 +24,7 @@ public interface ValidationGroup {
 
     interface ModifyPartialContactCenterConversation {
     }
+
+    interface ContactCenterConversations{
+    }
 }

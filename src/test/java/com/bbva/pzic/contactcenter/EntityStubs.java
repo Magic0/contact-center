@@ -46,7 +46,10 @@ public final class EntityStubs {
         return objectMapper.readValue(Thread.currentThread().getContextClassLoader()
                 .getResourceAsStream("mock/inputSearchConversationParticipants.json"), InputSearchConversationParticipants.class);
     }
-
+    public InputContactCenterConversations getInputContactCenterConversations() throws IOException {
+        return objectMapper.readValue(Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("mock/inputContactCenterConversations.json"), InputContactCenterConversations.class);
+    }
     public Conversation getConversation() throws IOException {
         return objectMapper.readValue(Thread.currentThread().getContextClassLoader()
                 .getResourceAsStream("mock/createConversation.json"),Conversation.class);
