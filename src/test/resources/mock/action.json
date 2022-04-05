@@ -1,0 +1,18 @@
+
+    {
+      "step": {
+        "id": "cuo"
+      },
+      "inputs": [
+        {
+          "id": "segmento-cliente",
+          "value": "VIP"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "valid",
+          "value": "MAX"
+        }
+      ]
+    }

@@ -1,0 +1,14 @@
+{
+  "externalId": "32b4d7b2-33ca-4c20-8431-93211114d0c17ddd",
+  "application": {
+    "id": "12345665432",
+    "version": "2.3.2"
+  },
+  "participant": {
+    "id": "12345678"
+  },
+  "phone": {
+    "number": "985478541"
+  },
+  "contractId": "0M6"
+}

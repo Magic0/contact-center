@@ -1,0 +1,16 @@
+{
+  "conversation_id": "123123-5345345-gredg-456-g-df",
+  "step": "cuo",
+  "data_request": [
+    {
+      "id": "segmento-cliente",
+      "value": "VIP"
+    }
+  ],
+  "data_response": [
+    {
+      "id": "valid",
+      "value": "MAX"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "codCliente": "12345678",
+  "numero": "51924125719",
+  "caracteristicas": [
+    {
+      "id": "LS001",
+      "tipo": "detractor",
+      "estado": true
+    },
+    {
+      "id": "LS002",
+      "tipo": "lista negra",
+      "estado": true
+    }
+  ],
+  "segmento": "VIP",
+  "oferta": "PLD,Subrogrado",
+  "opcion": [
+    {
+      "id": "opcion1",
+      "value": "subrogado"
+    },
+    {
+      "id": "opcion2",
+      "value": "paga-setiembre"
+    }
+  ],
+  "anexo": "#123"
+}
+
